@@ -66,9 +66,8 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-  value.replace('Hello, ', '');
-  console.log(value);
-  return value.replace('!', '');
+  let res = value.replace('Hello, ', '');
+  return res.replace('!', '');
 }
 
 
