@@ -215,7 +215,6 @@ function toCsvText(arr) {
     return elem += '\n';
   })
   res = res.join('');
-  console.log(res);
   return res.slice(0, -1);
 }
 
@@ -270,12 +269,10 @@ function getMovingSum(arr) {
  * [ 'a', 'b', 'c' , null ]  => [ "b", null ]
  * [ "a" ] => []
  */
-function getSecondItems(/* arr */) {
-  throw new Error('Not implemented');
-  // return arr.filter((elem, index) => {
-  //   return index % 2 !== 0
-  // })
+function getSecondItems(arr) {
+  return arr.filter((elem, index) => index % 2 !== 0);
 }
+
 
 
 /**
@@ -292,8 +289,21 @@ function getSecondItems(/* arr */) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  let res = [];
+  let change = [];
+  if (arr.length < 2) return arr;
+  else {
+    arr.map((elem, index) => {
+      if (index === 0) res.push(elem);
+      else {
+        change.fill(elem, 0, index + 1);
+        res = res.concat(change);
+      }
+
+    })
+  }
+  return res;
 }
 
 
@@ -310,8 +320,17 @@ function propagateItemsByPositionIndex(/* arr */) {
  *   [ 1,2,3,4,5,6,7,8,9,10 ] => [ 10, 9, 8 ]
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
-function get3TopItems(/* arr */) {
-  throw new Error('Not implemented');
+function get3TopItems(arr) {
+  if (arr.length === 0) return arr;
+  else if (arr.length === 2) {
+    return arr.sort((a, b) => {
+      return b - a;
+    })
+  }
+  arr.sort((a, b) => {
+    return b - a;
+  })
+  return arr.splice(0, 3);
 }
 
 
@@ -328,8 +347,11 @@ function get3TopItems(/* arr */) {
  *   [ null, 1, 'elephant' ] => 1
  *   [ 1, '2' ] => 1
  */
-function getPositivesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getPositivesCount(arr) {
+  let res = arr.filter(elem => {
+    return ((typeof elem === 'number') && elem > 0)
+  })
+  return res.length;
 }
 
 /**
@@ -346,6 +368,18 @@ function getPositivesCount(/* arr */) {
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
 function sortDigitNamesByNumericOrder(/* arr */) {
+  const numbers = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+  ];
   throw new Error('Not implemented');
 }
 
@@ -361,8 +395,9 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   [ -1, 1, -1, 1 ]      => 0
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
-function getItemsSum(/* arr */) {
-  throw new Error('Not implemented');
+function getItemsSum(arr) {
+  if (arr.length === 0) return 0;
+  return arr.reduce((accum, value) => accum + value);
 }
 
 /**
@@ -377,8 +412,10 @@ function getItemsSum(/* arr */) {
  *  [ -1, 'false', null, 0 ] => 2
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
-function getFalsyValuesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getFalsyValuesCount(arr) {
+  if (arr.length === 0) return 0;
+  let res = arr.filter(Boolean);
+  return arr.length - res.length;
 }
 
 /**
@@ -395,8 +432,9 @@ function getFalsyValuesCount(/* arr */) {
  *    [ null, undefined, null ], null => 2
  *    [ true, 0, 1, 'true' ], true => 1
  */
-function findAllOccurences(/* arr, item */) {
-  throw new Error('Not implemented');
+function findAllOccurences(arr, item) {
+  let res = arr.filter(elem => elem.toString() == item)
+  return res.length;
 }
 
 /**
@@ -410,8 +448,8 @@ function findAllOccurences(/* arr, item */) {
  *    [1, 2, 3, 4, 5]                   => '1,2,3,4,5'
  *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
  */
-function toStringList(/* arr */) {
-  throw new Error('Not implemented');
+function toStringList(arr) {
+  return arr.join(',');
 }
 
 
@@ -463,8 +501,17 @@ function sortCitiesArray(/* arr */) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  let res;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (i === j) {
+        res[i][j] = 1;
+      }
+      else res[i][j] = 0
+    }
+  }
+  return res;
 }
 
 /**
@@ -480,8 +527,12 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  let len = Math.abs(start - end) + 1;
+  let arr = Array(len);
+  arr.fill(0);
+  return arr.map((elem, index) => elem[index] = start + index);
+
 }
 
 /**
@@ -495,8 +546,12 @@ function getIntervalArray(/* start, end */) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  let res = [];
+  arr.map(elem => {
+    if (!res.includes(elem)) res.push(elem);
+  });
+  return res;
 }
 
 /**
@@ -547,8 +602,8 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.map(childrenSelector).flat();
 }
 
 
@@ -564,8 +619,8 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  return indexes.reduce((accum, ind) => accum[ind], arr);
 }
 
 
@@ -587,8 +642,12 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length === 1) return arr;
+  let partSize = Math.floor(arr.length / 2);
+  if (arr.length % 2 === 0) return arr.slice(arr.length - partSize).concat(arr.slice(0, partSize));
+  else return arr.slice(arr.length - partSize).concat(arr.slice(partSize, partSize + 1)).concat(arr.slice(0, partSize));
+
 }
 
 

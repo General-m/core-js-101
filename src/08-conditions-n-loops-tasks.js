@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* *************************************************************************************************
  *                                                                                                *
  * Plese read the following tutorial before implementing tasks:                                   *
@@ -27,8 +28,15 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  let result = [];
+  for (i = 1; i <= num; i++) {
+    let out = '';
+    if (i % 3 == 0) out += 'Fizz';
+    if (i % 5 == 0) out += 'Buzz';
+    result[i - 1] = (out || i);
+  }
+  return result;
 }
 
 

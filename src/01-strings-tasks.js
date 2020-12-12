@@ -96,8 +96,8 @@ function getFirstChar(str) {
  *   'cat'              => 'cat'
  *   '\tHello, World! ' => 'Hello, World!'
  */
-function removeLeadingAndTrailingWhitespaces(/* value */) {
-  throw new Error('Not implemented');
+function removeLeadingAndTrailingWhitespaces(str) {
+  return str.trim();
 }
 
 /**
@@ -131,8 +131,8 @@ function repeatString(value, count) {
  *   'I like legends', 'end' => 'I like legs',
  *   'ABABAB','BA' => 'ABAB'
  */
-function removeFirstOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
+function removeFirstOccurrences(str, value) {
+  return str.replace(value, '');
 }
 
 /**
@@ -207,8 +207,16 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let str = '';
+  for (let i = 0; i < height; i++) {
+    if (i === 0) str += `┌${'─'.repeat(width - 2)}┐\n`;
+    else if (i === height - 1) str += `└${'─'.repeat(width - 2)}┘\n`;
+    else {
+      str += `│${' '.repeat(width - 2)}│\n`;
+    }
+  }
+  return str;
 }
 
 
@@ -228,8 +236,20 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  let code;
+  let res = '';
+  for (let i = 0; i < str.length; i++) {
+    code = str.charCodeAt(i);
+    if (code > 64 && code < 91) {
+      res += String.fromCharCode(`${(code + 13) > 90 ? code - 13 : code + 13}`);
+    }
+    else if (code > 96 && code < 123) {
+      res += String.fromCharCode(`${(code + 13) > 122 ? code - 13 : code + 13}`);
+    }
+    else res += str[i];
+  }
+  return res;
 }
 
 /**
