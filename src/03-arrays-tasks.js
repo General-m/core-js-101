@@ -295,12 +295,9 @@ function propagateItemsByPositionIndex(arr) {
   if (arr.length < 2) return arr;
   else {
     arr.map((elem, index) => {
-      if (index === 0) res.push(elem);
-      else {
-        change.fill(elem, 0, index + 1);
-        res = res.concat(change);
-      }
-
+      change = Array(index + 1).fill(elem, 0, index + 2);
+      res = res.concat(change);
+      change = [];
     })
   }
   return res;
@@ -367,7 +364,7 @@ function getPositivesCount(arr) {
  *   [ 'nine','eight','nine','eight'] => [ 'eight','eight','nine','nine']
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
+function sortDigitNamesByNumericOrder(arr) {
   const numbers = [
     'zero',
     'one',
@@ -380,7 +377,14 @@ function sortDigitNamesByNumericOrder(/* arr */) {
     'eight',
     'nine',
   ];
-  throw new Error('Not implemented');
+  let res = [];
+  if (arr.length === 0) return [];
+  arr.map(elem => {
+    res.push(numbers.indexOf(elem));
+  })
+  res.sort();
+  res = res.map((elem) => elem = numbers[elem])
+  return res;
 }
 
 /**
@@ -433,8 +437,8 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-  let res = arr.filter(elem => elem.toString() == item)
-  return res.length;
+  return arr.filter(elem => elem === item).length;
+
 }
 
 /**
@@ -479,9 +483,15 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => {
+    if (a.country === b.country) {
+      return a.city > b.city ? 1 : -1;
+    }
+    return a.country > b.country ? 1 : -1;
+  });
 }
+
 
 /**
  * Creates an indentity matrix of the specified size
@@ -502,15 +512,8 @@ function sortCitiesArray(/* arr */) {
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
-  let res;
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      if (i === j) {
-        res[i][j] = 1;
-      }
-      else res[i][j] = 0
-    }
-  }
+  let res = Array(n);
+  res = Array(n).fill(1).map((el1, ind1) => Array(n).fill(1).map((el2, ind2) => (ind1 === ind2 ? 1 : 0)));
   return res;
 }
 
@@ -584,8 +587,15 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  let map = new Map();
+  array.map(elem => {
+    let key = keySelector(elem);
+    if (map.has(key)) map.get(key).push(valueSelector(elem));
+    else map.set(key, [valueSelector(elem)]);
+    return elem;
+  });
+  return map;
 }
 
 
